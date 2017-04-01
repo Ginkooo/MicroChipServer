@@ -1,8 +1,5 @@
-from django.shortcuts import render
 from django.http import JsonResponse
 from blog.models import Post
-
-# Create your views here.
 
 def get_posts(request):
     '''
@@ -51,8 +48,8 @@ def get_posts(request):
     Error messages (In Code 500 etc.) are returned in 'text' key.
     '''
 
-    #if (not request.is_ajax()):
-    #    return JsonResponse({'text': 'Resquest seems not to be ajax'}, status=500)
+    if (not request.is_ajax()):
+        return JsonResponse({'text': 'Resquest seems not to be ajax'}, status=500)
     # Commented for debugging
 
     response = {

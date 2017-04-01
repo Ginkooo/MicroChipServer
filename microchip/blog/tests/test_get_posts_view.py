@@ -26,6 +26,13 @@ class GetPostsTest(TestCase):
         Post.objects.create(content=content2, author='bartek', category='cats', date=date2)
         Post.objects.create(content=content3, author='piotr', category='snakes', date=date3)
 
+    def test_refuses_non_ajax_connection(self):
+        request = HttpRequest()
+        response = views.get_posts(request)
+        content = json.loads(response.content)
+        self.assertEqual(500, response.status_code)
+        self.assertTrue('ajax' in content['text'])
+
     def test_get_post_can_select_proper_language_for_posts(self):
         polish_request = HttpRequest()
         polish_request.is_ajax = lambda : True
