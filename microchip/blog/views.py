@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from blog.models import Post
 
 # Create your views here.
 
@@ -30,7 +31,7 @@ def get_posts(request):
         ]
     }
 
-    Request json example
+    Request example
     ====================
 
     GET /posts?language=pl&count=3&category=space
@@ -45,9 +46,37 @@ def get_posts(request):
 
     Errors
     ======
-    Error messages (In Code 500 etc. are returned in 'text' key.
+    Error messages (In Code 500 etc.) are returned in 'text' key.
     '''
 
     if (not request.is_ajax()):
+
         return JsonResponse({'text': 'Resquest seems not to be ajax'}, status=500)
-    return JsonResponse({'text': 'It works!'}, status=200)
+
+    response = {
+            'posts':
+            [
+            ]
+            }
+
+    language = request.GET['language']
+    count = request.GET['count'] if 'count' in request.GET else 0
+
+    if count == 0:
+        db_result = Post.objects.get(category=request.GET['category']) if 'category' in request.GET else Post.objects.all()
+    else:
+        db_result = Post.objects.get(category=request.GET['category'])[:count] if 'category' in request.GET else Post.objects.all()[:count]
+
+    for post in db_result:
+
+        post = {
+                'title': post.content.english_title if language == 'en' else post.content.polish_title,
+                'content': post.content.english_content if language == 'en' else post.content.polish_content,
+                'date': post.date,
+                'language': request.GET['language'],
+                'author': post.author
+                }
+        response['posts'].append(post)
+
+    return JsonResponse(response)
+
