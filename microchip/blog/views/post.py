@@ -14,14 +14,16 @@ def get_posts(request):
             {
                 title: example title,
                 content: example content
-                date : 26-02-2017,
+                date: 26-02-2017,
+                category: cats
                 language: pl,
                 author: rafix
             },
             {
                 title: example title2,
                 content: example content2,
-                date : 26-03-2017,
+                date: 26-03-2017,
+                category: spaceships,
                 language: en,
                 author: ator
             }
@@ -50,7 +52,6 @@ def get_posts(request):
 
     if (not request.is_ajax()):
         return JsonResponse({'text': 'Resquest seems not to be ajax'}, status=500)
-    # Commented for debugging
 
     response = {
             'posts':
@@ -62,9 +63,9 @@ def get_posts(request):
     count = int(request.GET['count']) if 'count' in request.GET else 0
 
     if count == 0:
-        db_result = Post.objects.get(category=request.GET['category']) if 'category' in request.GET else Post.objects.all()
+        db_result = Post.objects.filter(category=request.GET['category']) if 'category' in request.GET else Post.objects.all()
     else:
-        db_result = Post.objects.get(category=request.GET['category'])[:count] if 'category' in request.GET else Post.objects.all()[:count]
+        db_result = Post.objects.filter(category=request.GET['category'])[:count] if 'category' in request.GET else Post.objects.all()[:count]
 
     for post in db_result:
 
@@ -72,6 +73,7 @@ def get_posts(request):
                 'title': post.content.english_title if language == 'en' else post.content.polish_title,
                 'content': post.content.english_content if language == 'en' else post.content.polish_content,
                 'date': post.date,
+                'category': post.category,
                 'language': language,
                 'author': post.author
                 }

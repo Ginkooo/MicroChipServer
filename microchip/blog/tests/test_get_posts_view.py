@@ -22,7 +22,7 @@ class GetPostsTest(TestCase):
         content3 = Content.objects.create(polish_content='Jakiś tam polski kontent dla posta 3',
                         english_content='Some english content for post 3')
 
-        Post.objects.create(content=content1, author='durpal', category='spacecrafts', date=date1)
+        Post.objects.create(content=content1, author='durpal', category='cats', date=date1)
         Post.objects.create(content=content2, author='bartek', category='cats', date=date2)
         Post.objects.create(content=content3, author='piotr', category='snakes', date=date3)
 
@@ -59,3 +59,9 @@ class GetPostsTest(TestCase):
         content = json.loads(response.content)
         self.assertTrue(2 == len(content['posts']))
 
+    def test_can_select_by_category(self):
+        c = Client()
+        response = c.get('/get_posts/?category=cats', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        content = json.loads(response.content)
+        self.assertTrue(2 == len(content['posts']))
+        self.assertEqual(content['posts'][0]['category'], 'cats')
