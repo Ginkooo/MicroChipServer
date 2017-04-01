@@ -39,6 +39,8 @@ def get_posts(request):
     If no count param specified, method will return all posts matching other params.
     You can skip other params to acquire simillar effect.
 
+    If language param is not specified, default is 'pl'
+
     Invalid request
     ===============
 
@@ -49,9 +51,9 @@ def get_posts(request):
     Error messages (In Code 500 etc.) are returned in 'text' key.
     '''
 
-    if (not request.is_ajax()):
-
-        return JsonResponse({'text': 'Resquest seems not to be ajax'}, status=500)
+    #if (not request.is_ajax()):
+    #    return JsonResponse({'text': 'Resquest seems not to be ajax'}, status=500)
+    # Commented for debugging
 
     response = {
             'posts':
@@ -59,8 +61,8 @@ def get_posts(request):
             ]
             }
 
-    language = request.GET['language']
-    count = request.GET['count'] if 'count' in request.GET else 0
+    language = request.GET['language'] if 'language' in request.GET else 'pl'
+    count = int(request.GET['count']) if 'count' in request.GET else 0
 
     if count == 0:
         db_result = Post.objects.get(category=request.GET['category']) if 'category' in request.GET else Post.objects.all()
@@ -73,7 +75,7 @@ def get_posts(request):
                 'title': post.content.english_title if language == 'en' else post.content.polish_title,
                 'content': post.content.english_content if language == 'en' else post.content.polish_content,
                 'date': post.date,
-                'language': request.GET['language'],
+                'language': language,
                 'author': post.author
                 }
         response['posts'].append(post)

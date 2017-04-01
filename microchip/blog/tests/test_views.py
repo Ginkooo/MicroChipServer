@@ -1,9 +1,11 @@
 from django.test import TestCase
+from django.test import Client
 from django.http import HttpRequest
 from blog.models import Post, Content
 import blog.views as views
 from datetime import datetime
 import json
+import sys
 
 class GetPostsTest(TestCase):
     def setUp(self):
@@ -43,3 +45,10 @@ class GetPostsTest(TestCase):
         content = json.loads(english_response.content)
         for post in content['posts']:
             self.assertTrue('english' in post['content'])
+
+    def test_can_select_given_amount_of_posts_query_string(self):
+        c = Client()
+        response = c.get('/get_posts/?count=2', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        content = json.loads(response.content)
+        self.assertTrue(2 == len(content['posts']))
+
