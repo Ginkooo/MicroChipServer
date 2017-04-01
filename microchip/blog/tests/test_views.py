@@ -25,10 +25,21 @@ class GetPostsTest(TestCase):
         Post.objects.create(content=content3, author='piotr', category='snakes', date=date3)
 
     def test_get_post_can_select_proper_language_for_posts(self):
-        request = HttpRequest()
-        request.is_ajax = lambda : True
-        request.GET['language'] = 'pl'
-        response = views.get_posts(request)
-        content = json.loads(response.content)
+        polish_request = HttpRequest()
+        polish_request.is_ajax = lambda : True
+        polish_request.GET['language'] = 'pl'
+
+        english_request = HttpRequest()
+        english_request.is_ajax = lambda : True
+        english_request.GET['language'] = 'en'
+
+        polish_response = views.get_posts(polish_request)
+        english_response = views.get_posts(english_request)
+
+        content = json.loads(polish_response.content)
         for post in content['posts']:
             self.assertTrue('polski' in post['content'])
+
+        content = json.loads(english_response.content)
+        for post in content['posts']:
+            self.assertTrue('english' in post['content'])
