@@ -17,7 +17,8 @@ def get_posts(request):
                 date: 26-02-2017,
                 category: cats
                 language: pl,
-                author: rafix
+                author: rafix,
+                link: about-cats-1
             },
             {
                 title: example title2,
@@ -26,6 +27,7 @@ def get_posts(request):
                 category: spaceships,
                 language: en,
                 author: ator
+                link: about-dogs-1
             }
         ]
     }
@@ -75,7 +77,8 @@ def get_posts(request):
                 'date': post.date,
                 'category': post.category,
                 'language': language,
-                'author': post.author
+                'author': post.author,
+                'link': post.content.english_link if language == 'en' else post.content.polish_link
                 }
         response['posts'].append(post)
 

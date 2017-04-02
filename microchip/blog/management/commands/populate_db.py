@@ -11,11 +11,11 @@ class Command(BaseCommand):
         date2 = date2.replace(year=2017, month=11)
         date3 = date3.replace(year=2017, month=10)
         content1 = Content.objects.create(polish_content='Jakiś tam polski kontent dla posta 1',
-                english_content='Some english content for post 1')
+                english_content='Some english content for post 1', english_title='Some elglish title dor post 1', polish_title='Some polish title for post 1', polish_link='polski-link-1', english_link='english-link-1')
         content2 = Content.objects.create(polish_content='Jakiś tam polski kontent dla posta 2',
-                        english_content='Some english content for post 2')
+                        english_content='Some english content for post 2', english_title='Some elglish title dor post 2', polish_title='Some polish title for post 1', polish_link='polski-link-2', english_link='english-link-2')
         content3 = Content.objects.create(polish_content='Jakiś tam polski kontent dla posta 3',
-                        english_content='Some english content for post 3')
+                        english_content='Some english content for post 3', english_title='Some elglish title dor post 3', polish_title='Some polish title for post 3', polish_link='polski-link-3', english_link='english-link-3')
 
         Post.objects.create(content=content1, author='durpal', category='spacecrafts', date=date1)
         Post.objects.create(content=content2, author='bartek', category='cats', date=date2)

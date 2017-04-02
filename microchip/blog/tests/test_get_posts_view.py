@@ -16,11 +16,11 @@ class GetPostsTest(TestCase):
         date2 = date2.replace(year=2017, month=11)
         date3 = date3.replace(year=2017, month=10)
         content1 = Content.objects.create(polish_content='Jakiś tam polski kontent dla posta 1',
-                english_content='Some english content for post 1')
+                english_content='Some english content for post 1', polish_link='polski-link-1', english_link='english-link-1')
         content2 = Content.objects.create(polish_content='Jakiś tam polski kontent dla posta 2',
-                        english_content='Some english content for post 2')
+                        english_content='Some english content for post 2', polish_link='polski-link-2', english_link='english-link-2')
         content3 = Content.objects.create(polish_content='Jakiś tam polski kontent dla posta 3',
-                        english_content='Some english content for post 3')
+                        english_content='Some english content for post 3', polish_link='polski-link-3', english_link='english-link-3')
 
         Post.objects.create(content=content1, author='durpal', category='cats', date=date1)
         Post.objects.create(content=content2, author='bartek', category='cats', date=date2)
@@ -52,6 +52,26 @@ class GetPostsTest(TestCase):
         content = json.loads(english_response.content)
         for post in content['posts']:
             self.assertTrue('english' in post['content'])
+
+    def test_get_post_can_select_proper_link_by_language(self):
+        polish_request = HttpRequest()
+        polish_request.is_ajax = lambda : True
+        polish_request.GET['language'] = 'pl'
+
+        english_request = HttpRequest()
+        english_request.is_ajax = lambda : True
+        english_request.GET['language'] = 'en'
+
+        polish_response = views.get_posts(polish_request)
+        english_response = views.get_posts(english_request)
+
+        content = json.loads(polish_response.content)
+        for post in content['posts']:
+            self.assertTrue('polski' in post['link'] and 'link' in post['link'])
+
+        content = json.loads(english_response.content)
+        for post in content['posts']:
+            self.assertTrue('english' in post['link'] and 'link' in post['link'])
 
     def test_can_select_given_amount_of_posts_query_string(self):
         c = Client()
