@@ -15,6 +15,9 @@ class Content(models.Model):
     polish_link = models.CharField(max_length=60, unique=True, validators=[MinLengthValidator(3)])
     english_link = models.CharField(max_length=60, unique=True, validators=[MinLengthValidator(3)])
 
+    class Meta:
+        unique_together=('polish_link', 'english_link')
+
 class Post(models.Model):
     '''
     Its an entity reptesenting a single post. It's content is in 'Content' table

@@ -23,6 +23,31 @@ class AdminTest(TestCase):
         self.valid_post['author']='Some author'
         self.valid_post['category']='Some category'
 
+    def test_cannot_add_post_with_nonunique_link(self):
+        Post.objects.all().delete()
+        c = Client()
+        c.login(username='bunny', password='p455w0rd'),
+        post = copy.deepcopy(self.valid_post)
+        post['polish_link']='different-link'
+        c.post('/add_post/', self.valid_post, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post('/add_post/', post, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        content = json.loads(response.content)
+        self.assertEquals(500, response.status_code)
+
+    def test_can_add_posts_with_different_links(self):
+        Post.objects.all().delete()
+        c = Client()
+        c.login(username='bunny', password='p455w0rd'),
+        post = copy.deepcopy(self.valid_post)
+        post['polish_link']='different-link'
+        post['english_link']='different-english-link'
+        c.post('/add_post/', self.valid_post, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post('/add_post/', post, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        content = json.loads(response.content)
+        self.assertEquals(2, Post.objects.count())
+        self.assertEquals(200, response.status_code)
+        self.assertEquals('OK', content['status'])
+
     def test_ajax_required_add(self):
         c = Client()
         c.login(username='bunny', password='p455w0rd'),
