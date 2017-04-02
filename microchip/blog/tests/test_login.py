@@ -5,7 +5,19 @@ from django.contrib.auth.models import User
 import json
 
 class LoginTest(TestCase):
-    
+
+    def test_ajax_required(self):
+        c = Client()
+        response = c.post('/login/', {})
+        content = json.loads(response.content)
+        self.assertTrue('ajax' in content['text'])
+        self.assertEqual(500, response.status_code)
+        c = Client()
+        response = c.post('/logout/', {})
+        content = json.loads(response.content)
+        self.assertEqual(500, response.status_code)
+        self.assertTrue('ajax' in content['text'])
+
     def test_can_login_user(self):
         User.objects.create_user('bunny', 'some@email.com', 'P4SSw0rd')
         c = Client()
@@ -19,3 +31,10 @@ class LoginTest(TestCase):
         content = json.loads(response.content)
         self.assertEqual(500, response.status_code)
         self.assertTrue('invalid' in content['text'])
+
+    def test_can_logout(self):
+        c = Client()
+        response = c.get('/logout/', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        content = json.loads(response.content)
+        self.assertEqual('OK', content['status'])
+

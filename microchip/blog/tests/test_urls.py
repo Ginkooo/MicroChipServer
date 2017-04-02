@@ -1,6 +1,6 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
-from blog.views import get_posts, authenticate, index
+from blog.views import get_posts, authenticate, index, logout, add_post
 
 class UrlTest(TestCase):
     def test_can_resolve_get_posts(self):
@@ -14,3 +14,11 @@ class UrlTest(TestCase):
     def test_can_resolve_index(self):
         found = resolve('/')
         self.assertEqual(found.func, index)
+
+    def test_can_logout(self):
+        found = resolve('/logout/')
+        self.assertEqual(found.func, logout)
+
+    def test_can_resolve_add_post(self):
+        found = resolve('/add_post/')
+        self.assertEqual(found.func, add_post)

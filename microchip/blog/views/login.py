@@ -33,7 +33,7 @@ def authenticate(request):
 
     username = request.POST['username']
     password = request.POST['password']
-    
+
     user = auth.authenticate(username=username, password=password)
     if user is not None:
         auth.login(request, user)
@@ -41,3 +41,16 @@ def authenticate(request):
     else:
         return JsonResponse({'text': 'Username or password is invalid'}, status=500)
 
+def logout(request):
+    '''
+    sending GET request to this view logs the user out
+
+    Will response with
+    {
+        'status': 'OK'
+    }
+    '''
+    if not request.is_ajax():
+        return JsonResponse({'text': 'This should be done by ajax'}, status=500)
+    auth.logout(request)
+    return JsonResponse({'status': 'OK'})
