@@ -23,5 +23,7 @@ urlpatterns = [
     url(r'^login/', views.authenticate),
     url(r'^logout/', views.logout),
     url(r'^add_post/', views.add_post),
+    url(r'^delete_post/', views.delete_post),
+    url(r'^edit_post/', views.edit_post),
     url(r'^$', views.index),
 ]

@@ -12,6 +12,7 @@ def get_posts(request):
     { posts:
         [
             {
+                id: 5,
                 title: example title,
                 content: example content
                 date: 26-02-2017,
@@ -21,6 +22,7 @@ def get_posts(request):
                 link: about-cats-1
             },
             {
+                id: 6,
                 title: example title2,
                 content: example content2,
                 date: 26-03-2017,
@@ -72,6 +74,7 @@ def get_posts(request):
     for post in db_result:
 
         post = {
+                'id': post.id,
                 'title': post.content.english_title if language == 'en' else post.content.polish_title,
                 'content': post.content.english_content if language == 'en' else post.content.polish_content,
                 'date': post.date,
