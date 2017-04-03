@@ -70,7 +70,7 @@ def delete_post(request):
     if not request.is_ajax():
         return JsonResponse({'text': 'Request is not made by ajax'}, status=500)
     try:
-        Post.objects.get(id=request.POST['id']).delete()
+        Post.objects.get(id=request.POST['id']).content.delete()
     except:
         return JsonResponse({'text': 'Cannot delete such a post'}, status=500)
     return JsonResponse({'status': 'OK'})
@@ -84,29 +84,39 @@ def edit_post(request):
 
     post_info = {}
     content_info = {}
+    post_exclude = []
+    content_exclude=[]
 
     if 'english_title' in post: content_info['english_title'] = post['english_title']
+    else: content_exclude.append('english_title')
     if 'polish_title' in post: content_info['polish_title'] = post['polish_title']
+    else: content_exclude.append('polish_title')
     if 'english_content' in post: content_info['english_content'] = post['english_content']
+    else: content_exclude.append('english_content')
     if 'polish_content' in post: content_info['polish_content'] = post['polish_content']
+    else: content_exclude.append('polish_content')
     if 'english_link' in post: content_info['english_link'] = post['english_link']
+    else: content_exclude.append('english_link')
     if 'polish_link' in post: content_info['polish_link'] = post['polish_link']
+    else: content_exclude.append('polish_link')
     if 'author' in post: post_info['author'] = post['author']
+    else: post_exclude.append('author')
     if 'category' in post: post_info['category'] = post['category']
+    else: post_exclude.append('category')
 
     try:
         content = Post.objects.get(pk=pk).content
         for key, value in content_info.items():
             setattr(content, key, value)
-        content.full_clean()
-        content.save()
+        content.full_clean(exclude=content_exclude)
+        content.save(update_fields=list(content_info))
 
         post_info['content'] = content
         post = Post.objects.get(pk=pk)
         for key, value in post_info.items():
             setattr(post, key, value)
-        post.full_clean()
-        post.save()
+        post.full_clean(exclude=post_exclude)
+        post.save(update_fields=list(post_info).append('content'))
 
     except ValidationError as e:
         return JsonResponse({'text': str(e)}, status=500)

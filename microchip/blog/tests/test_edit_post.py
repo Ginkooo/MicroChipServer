@@ -47,8 +47,6 @@ class EditPostTest(TestCase):
         c.login(username='bunny', password='p455w0rd')
         response = c.post('/edit_post/', {'id': '2', 'english_content': 'edited english content'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         content = json.loads(response.content)
-        sys.stdout.write(Post.objects.get(pk=2).content.english_content)
-        sys.stdout.write(json.dumps(content))
         self.assertEqual(200, response.status_code)
         self.assertEqual('OK', content['status'])
         self.assertTrue('edited' in Post.objects.get(pk=2).content.english_content)

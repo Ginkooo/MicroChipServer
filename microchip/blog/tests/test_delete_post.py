@@ -35,18 +35,17 @@ class DeletePostTest(TestCase):
         User.objects.create_user('bunny', 'some@mail.pl', 'p455w0rd')
 
     def test_can_delete_post(self):
-
-
         c = Client()
         c.login(username='bunny', password='p455w0rd'),
-        response = c.post('/delete_post/', {'id': '2'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        c.post('/delete_post/', {'id': '2'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         response = c.post('/delete_post/', {'id': '1'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         response_content = json.loads(response.content)
         self.assertEqual(1, Post.objects.count())
         self.assertEqual(1, Content.objects.count())
         with self.assertRaises(Post.DoesNotExist):
             Post.objects.get(author='bartek')
-        self.assertTrue(Content.objects.get(english_link='english-link-2') == None)
+        with self.assertRaises(Content.DoesNotExist):
+            Content.objects.get(english_link='english-link-2')
         self.assertEquals('OK', response_content['status'])
 
     def test_cannot_make_non_ajax_connection(self):
