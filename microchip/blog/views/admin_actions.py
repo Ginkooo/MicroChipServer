@@ -67,6 +67,20 @@ def add_post(request):
 
 @login_required()
 def delete_post(request):
+    '''
+    :param request: HttpRequest object
+    :return: JsonResponse object
+    
+    Return
+    ======
+    JsonResponse with body like
+    {
+        'status': 'OK'
+    }
+    if evertyhing went ok and post id deleted. Othrewise returns JsonResponse with code 500, error message is in 'text' key.
+    
+    Request must be made by ajax, otherwise error will be returned in a standard format.
+    '''
     if not request.is_ajax():
         return JsonResponse({'text': 'Request is not made by ajax'}, status=500)
     try:
@@ -77,6 +91,41 @@ def delete_post(request):
 
 @login_required()
 def edit_post(request):
+    '''
+    :param request: HttpRequest object.
+    :return: JsonResponse object.
+    
+    Returns
+    =======
+    {
+        'status': 'OK'
+    }
+    if everything went ok.
+    Standard error otherwise.
+    
+    How to make a correct request
+    =============================
+    
+    You have to provide JSON, which contains:
+    * ID of the post you want to update
+    * Fields you want to update, fields might be:
+        * english_title,
+        * polish_title,
+        * english_content,
+        * polish_content,
+        * english_link,
+        * polish_link,
+        * author,
+        * category.
+        
+    You have to provide them in JSON in format like:
+    
+    {
+        'id': '5',
+        'english_content': 'Content will loke like this now'
+    }
+    Provide only fields, you want to update.
+    '''
     if not request.is_ajax():
         return JsonResponse({'text': 'ajax is required'}, status=500)
     pk = request.POST.pop('id', None)[0]
