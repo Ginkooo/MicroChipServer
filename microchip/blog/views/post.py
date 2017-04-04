@@ -39,10 +39,10 @@ def get_posts(request):
 
     GET /posts?language=pl&count=3&category=space
 
-    If no count param specified, method will return all posts matching other params.
-    You can skip other params to acquire simillar effect.
 
     If language param is not specified, default is 'pl'
+
+    Posts are returned in descending order, for practical reasons.
 
     Invalid request
     ===============
@@ -70,6 +70,8 @@ def get_posts(request):
         db_result = Post.objects.filter(category=request.GET['category']) if 'category' in request.GET else Post.objects.all()
     else:
         db_result = Post.objects.filter(category=request.GET['category'])[:count] if 'category' in request.GET else Post.objects.all()[:count]
+
+    db_result = db_result[::-1]
 
     for post in db_result:
 

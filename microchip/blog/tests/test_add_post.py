@@ -23,6 +23,11 @@ class AdminTest(TestCase):
         self.valid_post['author']='Some author'
         self.valid_post['category']='Some category'
 
+    def test_login_required(self):
+        c = Client()
+        response = c.post('/edit_post/', {'id': '2', 'english_content': 'edited english content'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertTrue(200 != response.status_code)
+
     def test_cannot_add_post_with_nonunique_link(self):
         Post.objects.all().delete()
         c = Client()
@@ -48,7 +53,7 @@ class AdminTest(TestCase):
         self.assertEquals(200, response.status_code)
         self.assertEquals('OK', content['status'])
 
-    def test_ajax_required_add(self):
+    def test_ajax_required(self):
         c = Client()
         c.login(username='bunny', password='p455w0rd'),
         response = c.post('/add_post/', {})

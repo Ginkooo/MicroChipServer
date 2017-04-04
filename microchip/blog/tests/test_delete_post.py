@@ -56,6 +56,11 @@ class DeletePostTest(TestCase):
         self.assertEqual(500, response.status_code)
         self.assertTrue('ajax' in content['text'])
 
+    def test_login_required(self):
+        c = Client()
+        response = c.post('/edit_post/', {'id': '2', 'english_content': 'edited english content'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertTrue(200 != response.status_code)
+
     def test_cannot_delete_post_with_wrong_id(self):
         c = Client()
         c.login(username='bunny', password='p455w0rd'),
