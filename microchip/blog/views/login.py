@@ -1,6 +1,26 @@
 import django.contrib.auth as auth
 from django.http import JsonResponse
 
+def logged_in(request):
+    '''
+    :param request: HttpRequest object.
+    :return: JsonResponse object.
+
+    GET this view, to check if user is logged in
+
+    Returns
+    =======
+    Json Response with content like:
+    {
+        'logged': 'true'
+    }
+
+    if not request.in_ajax():
+        return JsonResponse({'text': 'Request have to be made using ajax'})
+    if request.user.is_authenticated:
+        return JsonResponse({'logged': 'true'})
+    return JsonResponse({'logged': 'false'})
+
 def authenticate(request):
     '''
     :param request: HttpRequest object

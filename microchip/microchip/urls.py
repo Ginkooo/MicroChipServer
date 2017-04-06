@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^add_post/', views.add_post),
     url(r'^delete_post/', views.delete_post),
     url(r'^edit_post/', views.edit_post),
-    url(r'^get_comments_for_post', views.get_comments_for_post),
+    url(r'^get_comments_for_post/', views.get_comments_for_post),
+    url(r'^logged_in/', views.logged_in),
     url(r'^$', views.index),
 ]
