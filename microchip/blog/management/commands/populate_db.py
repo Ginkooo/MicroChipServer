@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from blog.models import Post, Content
+from blog.models import Post, Content, Comment
 from datetime import datetime
 
 class Command(BaseCommand):
@@ -17,6 +17,10 @@ class Command(BaseCommand):
         content3 = Content.objects.create(polish_content='Jakiś tam polski kontent dla posta 3',
                         english_content='Some english content for post 3', english_title='Some elglish title dor post 3', polish_title='Some polish title for post 3', polish_link='polski-link-3', english_link='english-link-3')
 
-        Post.objects.create(content=content1, author='durpal', category='spacecrafts', date=date1)
-        Post.objects.create(content=content2, author='bartek', category='cats', date=date2)
-        Post.objects.create(content=content3, author='piotr', category='snakes', date=date3)
+        post1 = Post.objects.create(content=content1, author='durpal', category='spacecrafts', date=date1)
+        post2 = Post.objects.create(content=content2, author='bartek', category='cats', date=date2)
+        post3 = Post.objects.create(content=content3, author='piotr', category='snakes', date=date3)
+
+        comment1 = Comment.objects.create(post=post1, author='SomeAuthor',content='Some content in comment 1', parent_comment=None, date=date1)
+        comment2 = Comment.objects.create(post=post1, author='Maciej',content='Some content in comment 2', parent_comment=comment1, date=date2)
+        comment3 = Comment.objects.create(post=post1, author='Durpal',content='Some content in comment 3', parent_comment=None, date=date3)
