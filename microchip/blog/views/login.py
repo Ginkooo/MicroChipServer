@@ -14,8 +14,8 @@ def logged_in(request):
     {
         'logged': 'true'
     }
-
-    if not request.in_ajax():
+    '''
+    if not request.is_ajax():
         return JsonResponse({'text': 'Request have to be made using ajax'})
     if request.user.is_authenticated:
         return JsonResponse({'logged': 'true'})
