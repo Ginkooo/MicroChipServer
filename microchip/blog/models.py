@@ -26,3 +26,13 @@ class Post(models.Model):
     category = models.CharField(max_length=50, validators=[MinLengthValidator(3)])
     author = models.CharField(max_length=50, validators=[MinLengthValidator(3)])
     date = models.DateTimeField()
+
+class Comment(models.Model):
+    '''
+    Entity representing post comments
+    '''
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+    content = models.TextField()
+    author = models.CharField(max_length = 50)
+    date = models.DateTimeField()
