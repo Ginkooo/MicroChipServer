@@ -1,4 +1,4 @@
 *.swp
 *.swo
 *cache*
-.db.sqlite3
+db.*
