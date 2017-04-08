@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from blog.models import Post, Content
+from blog.models import Post, Content, Comment
 from datetime import datetime
 
 @login_required()
@@ -168,5 +168,15 @@ def edit_post(request):
         post.save(update_fields=list(post_info).append('content'))
 
     except ValidationError as e:
+        return JsonResponse({'text': str(e)}, status=500)
+    return JsonResponse({'status': 'OK'})
+
+@login_required()
+def delete_comment(request):
+    if not request.is_ajax():
+        return JsonResponse({'text': 'Request must be made using ajax'}, status=500)
+    try:
+        Comment.objects.get(pk=request.POST['id']).delete()
+    except Exception as e:
         return JsonResponse({'text': str(e)}, status=500)
     return JsonResponse({'status': 'OK'})

@@ -1,7 +1,9 @@
 
+from unittest.mock import Mock
 from django.test import TestCase
 from django.test import Client
 from django.http import HttpRequest
+from django.contrib.auth.models import User
 from blog.models import Post, Content, Comment
 import blog.views as views
 from datetime import datetime
@@ -13,6 +15,8 @@ class CommentTest(TestCase):
         Content.objects.all().delete()
         Post.objects.all().delete()
         Comment.objects.all().delete()
+        User.objects.all().delete()
+        User.objects.create_user('bunny', 'some_email', 'P4SSw0rd')
         date1 = datetime.now()
         date2 = datetime.now()
         date3 = datetime.now()
@@ -38,7 +42,7 @@ class CommentTest(TestCase):
         comment6 = Comment.objects.create(content='What an awesome post3!', author='Anonymous Girl3', post=post3, date=date3, parent_comment=None)
         comment7 = Comment.objects.create(content='What an awesome post1!', author='Anonymous Dwarf', post=post1, date=date1, parent_comment=None)
         comment8 = Comment.objects.create(content='What an awesome post2!', author='Anonymous Boy', post=post1, date=date2, parent_comment=comment1)
-        comment9 = Comment.objects.create(content='What an awesome post3!', author='Anonymous Musk', post=post3, date=date3, parent_comment=None)
+        comment9 = Comment.objects.create(content='What an awesome post3!', author='Anonymous Musk', post=post3, date=date3, parent_comment=comment8)
 
     def test_can_get_comments_for_post(self):
         c = Client()
@@ -46,3 +50,14 @@ class CommentTest(TestCase):
         content = json.loads(response.content)
         self.assertEqual(2, len(content['comments']))
         self.assertEqual(8, content['comments'][0]['subcomments'][1]['id'])
+
+    def test_can_delete_comment(self):
+        request = Mock()
+        request.user = Mock()
+        request.user.is_authenticated = True
+        request.is_ajax = Mock(return_value=True)
+        request.POST = dict()
+        request.POST.update({'id': 1})
+        response = views.delete_comment(request)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(5, Comment.objects.all().count())
