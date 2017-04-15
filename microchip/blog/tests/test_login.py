@@ -7,6 +7,7 @@ from blog.views import logged_in
 from unittest.mock import Mock
 import json
 
+
 class LoginTest(TestCase):
 
     def setUp(self):
@@ -33,13 +34,15 @@ class LoginTest(TestCase):
 
     def test_can_login_user(self):
         c = Client()
-        response = c.post('/login/', {'username': 'bunny', 'password': 'P4SSw0rd'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post(
+            '/login/', {'username': 'bunny', 'password': 'P4SSw0rd'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         content = json.loads(response.content)
         self.assertEqual('OK', content['status'])
 
     def test_cannot_login_if_no_user(self):
         c = Client()
-        response = c.post('/login/', {'username' : 'unexisting', 'password' : 'P4SSw0rd'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post('/login/', {'username': 'unexisting',
+                                      'password': 'P4SSw0rd'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         content = json.loads(response.content)
         self.assertEqual(500, response.status_code)
         self.assertTrue('invalid' in content['text'])
@@ -58,4 +61,3 @@ class LoginTest(TestCase):
         response = logged_in(request)
         content = json.loads(response.content)
         self.assertEquals('true', content['logged'])
-

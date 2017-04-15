@@ -1,6 +1,7 @@
 import django.contrib.auth as auth
 from django.http import JsonResponse
 
+
 def logged_in(request):
     '''
     :param request: HttpRequest object.
@@ -20,6 +21,7 @@ def logged_in(request):
     if request.user.is_authenticated:
         return JsonResponse({'logged': 'true'})
     return JsonResponse({'logged': 'false'})
+
 
 def authenticate(request):
     '''
@@ -60,6 +62,7 @@ def authenticate(request):
         return JsonResponse({'status': 'OK'})
     else:
         return JsonResponse({'text': 'Username or password is invalid'}, status=500)
+
 
 def logout(request):
     '''
