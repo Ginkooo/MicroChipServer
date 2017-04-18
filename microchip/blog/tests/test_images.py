@@ -6,14 +6,48 @@ import json
 
 class ImageTests(TestCase):
 
+    def setUp(self):
+        image1 = Image()
+        image1.image_file = SimpleUploadedFile(
+            name='image1.png', content=b'content1', content_type='image/png')
+        image1.full_clean()
+        image1.save()
+        image1.tags.add(('tag1', 'tag2'))
+
+        image2 = Image()
+        image2.image_file = SimpleUploadedFile(
+            name='image2.png', content=b'content2', content_type='image/png')
+        image2.full_clean()
+        image2.save()
+        image2.tags.add(('tag2'))
+
+        image3 = Image()
+        image3.image_file = SimpleUploadedFile(
+            name='image3.png', content=b'content3', content_type='image/png')
+        image3.full_clean()
+        image3.save()
+        image3.tags.add(('tag3', 'tag1'))
+
     def test_can_upload_image(self):
+        Image.objects.all().delete()
         image = SimpleUploadedFile(
             'kitties.png', b'kitties_in_boxes', 'image/png')
         response = self.client.post(
-            '/upload_image/', {'name': 'image', 'attachment': image, 'tags': ['orion', ]})
+            '/upload_image/', {'image': image, 'tags': ['orion', ]})
         content = json.loads(response.content)
+        print(content)
         self.assertEqual(200, response.status_code)
-        self.assertTrue('path' in content)
+        self.assertTrue('url' in content)
         self.assertTrue(content['url'])
         self.assertEqual(1, Image.objects.all().count())
-        self.assertEqual(content['url'], Image.objects.all()[0].image.url)
+        self.assertEqual(content['url'], Image.objects.all()[0].image_file.url)
+
+    def text_can_return_images_by_tags(self):
+        response = self.client.post('/get_images/', {'tags': ['tag3', 'tag1']})
+        content = json.loads(response.content)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(2, len(content['images']))
+        self.assertTrue('image2' in [image['name']
+                                     for image in content['images']])
+        self.assertTrue('image1' in [image['name']
+                                     for image in content['images']])

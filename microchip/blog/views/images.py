@@ -30,15 +30,21 @@ def upload_image(request):
     with status 500
     '''
 
-    print(request.POST)
-    image = request.POST['attachment']
+    image = request.FILES['image']
     tags = request.POST['tags']
 
     try:
         image_entity = Image(image_file=image)
-        image_entity.tags.add(*tags)
         image_entity.full_clean()
         image_entity.save()
+        image_entity.tags.add(*tags)
     except Exception as e:
         return JsonResponse({'text': str(e)}, status=500)
-    return JsonResponse({'url': image_entity.url})
+    return JsonResponse({'url': image_entity.image_file.url})
+
+
+def get_images(request):
+    try:
+        if 'tags' in request.POST and len(request.POST['tags']):
+            images = Image.objects.filter(tags__name__in=request.POST['tags'])
+???
