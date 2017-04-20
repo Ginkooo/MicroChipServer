@@ -1,6 +1,6 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
-from blog.views import get_posts, authenticate, index, logout, add_post, delete_post, edit_post, get_comments_for_post, logged_in, delete_comment, upload_image
+from blog.views import get_posts, authenticate, index, logout, add_post, delete_post, edit_post, get_comments_for_post, logged_in, delete_comment, upload_image, get_images
 
 
 class UrlTest(TestCase):
@@ -47,3 +47,7 @@ class UrlTest(TestCase):
     def test_can_resolve_upload_image(self):
         found = resolve('/upload_image/')
         self.assertEqual(found.func, upload_image)
+
+    def test_can_resolve_get_images(self):
+        found = resolve('/get_images/')
+        self.assertEqual(found.func, get_images)

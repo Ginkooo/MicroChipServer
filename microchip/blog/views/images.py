@@ -45,6 +45,22 @@ def upload_image(request):
 
 def get_images(request):
     try:
+        images = []
         if 'tags' in request.POST and len(request.POST['tags']):
-            images = Image.objects.filter(tags__name__in=request.POST['tags'])
-???
+            images = Image.objects.filter(tags__name__in=request.POST.getlist('tags')).distinct()
+        elif 'id' in request.POST and request.POST['id']:
+            images.append(Image.objects.get(pk=request.POST['id']))
+    except Exception as e:
+        return JsonResponse({'text': str(e)}, status=500)
+    response = {'images': []}
+    for image in images:
+        response['images'].append(
+            {
+                'id': image.id,
+                'tags': list(image.tags.names()),
+                'url': image.image_file.url,
+                'width': image.image_file.width,
+                'height': image.image_file.height,
+            }
+        )
+    return JsonResponse(response)

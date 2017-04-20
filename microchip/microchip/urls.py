@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^logged_in/', views.logged_in),
     url(r'^delete_comment/', views.delete_comment),
     url('^upload_image/', views.upload_image),
+    url('^get_images/', views.get_images),
     url(r'^$', views.index),
 ]

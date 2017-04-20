@@ -55,3 +55,21 @@ class Image(models.Model):
     '''
     image_file = models.ImageField(upload_to='uploads/%Y/%m/%d/')
     tags = TaggableManager()
+
+class Person(models.Model):
+    '''
+    Containg information about members of our assiciation
+    '''
+    photo = models.ForeignKey(Image, blank=True, null=True, on_delete=models.DO_NOTHING)
+    name = models.CharField(max_length=40)
+    description = models.TextField(blank=True, null=True)
+    phone = models.CharField(max_length=40)
+    email = models.EmailField()
+
+class Contact(models.Model):
+    '''
+    Contains contact information
+    '''
+    phone = models.CharField(max_length=40)
+    email = models.EmailField()
+    address = models.CharField(max_length=50)
