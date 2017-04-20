@@ -1,4 +1,5 @@
-*.swp
-*.swo
+*.sw
+*.sw
 *cache*
 db.*
+uploads/
