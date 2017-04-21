@@ -87,3 +87,10 @@ April 21, 2017 - 09:26:47
 Django version 1.10.6, using settings 'microchip.settings'
 Starting development server at http://0.0.0.0:20001/
 Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:27:05
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
