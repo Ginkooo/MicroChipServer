@@ -31,5 +31,9 @@ urlpatterns = [
     url('^upload_image/', views.upload_image),
     url('^get_images/', views.get_images),
     url('^delete_image/', views.delete_image),
+    url('^edit_contact_info/', views.edit_contact_info),
+    url('^is_contact_filled/', views.is_contact_filled),
+    url('^create_contact/', views.create_contact),
+    url('^get_contact_info/', views.get_contact_info),
     url(r'^$', views.index),
 ]

@@ -4,3 +4,4 @@ from blog.views.login import *
 from blog.views.admin_actions import *
 from blog.views.comments import *
 from blog.views.images import *
+from blog.views.contact import *

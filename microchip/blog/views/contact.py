@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from blog.models import Contact
 
+
 def is_contact_filled(request):
     count = Contact.objects.all().count()
     if count == 1:
@@ -10,13 +11,14 @@ def is_contact_filled(request):
     else:
         return JsonResponse({'text': 'Table contact contains more that 1 contact row'}, status=500)
 
+
 def edit_contact_info(request):
     if not Contact.objects.all().count() == 1:
         return JsonResponse({'text': 'There if more than 1 contact row, contact with administrator'}, status=500)
     try:
         phone = request.POST.get('phone', Contact.objects.all()[0].phone)
-        email = request.POST.get('phone', Contact.objects.all()[0].email)
-        address = request.POST.get('phone', Contact.objects.all()[0].address)
+        email = request.POST.get('email', Contact.objects.all()[0].email)
+        address = request.POST.get('address', Contact.objects.all()[0].address)
 
         contact = Contact.objects.all()[0]
         contact.phone = phone
@@ -27,6 +29,7 @@ def edit_contact_info(request):
 
     except Exception as e:
         return JsonResponse({'text': str(e)})
+    return JsonResponse({'status': 'OK'})
 
 def create_contact(request):
     if not Contact.objects.all().count() == 0:
@@ -43,6 +46,7 @@ def create_contact(request):
         return JsonResponse({'text': str(e)}, status=500)
     return JsonResponse({'status': 'OK'})
 
+
 def get_contact_info(request):
     try:
         contact = Contact.objects.all()[0]
@@ -50,4 +54,4 @@ def get_contact_info(request):
         return JsonResponse({'text': 'There is no contact yet'}, status=500)
     return JsonResponse({'phone': contact.phone,
                          'email': contact.email,
-                         'address': contact.address}, status=500)
+                         'address': contact.address})
