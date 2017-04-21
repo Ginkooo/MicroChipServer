@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.auth.models import User
 from blog.models import Image
 import json
 
@@ -7,6 +8,8 @@ import json
 class ImageTests(TestCase):
 
     def setUp(self):
+        User.objects.create_user('bunny', 'some@mail.pl', 'p455w0rd')
+
         image1 = Image()
         image1.image_file = SimpleUploadedFile(
             name='image1.png', content=b'content1', content_type='image/png')
@@ -29,6 +32,7 @@ class ImageTests(TestCase):
         image3.tags.add('tag3', 'tag1')
 
     def test_can_upload_image(self):
+        self.client.login(username='bunny', password='p455w0rd')
         Image.objects.all().delete()
         image = SimpleUploadedFile(
             'kitties.png', b'kitties_in_boxes', 'image/png')
@@ -52,15 +56,15 @@ class ImageTests(TestCase):
     def test_can_return_image_by_id(self):
         response = self.client.post('/get_images/', {'id': 2})
         content = json.loads(response.content)
-        print(content)
         self.assertEqual(200, response.status_code)
         self.assertEqual(1, len(content['images']))
         self.assertEqual(2, content['images'][0]['id'])
 
-    def test_can_return_image_by_post_id(self):
-        response = self.client.post('/get_images/', {'id': 2})
+    def test_can_delete_image_by_post_id(self):
+        self.client.login(username='bunny', password='p455w0rd')
+        response = self.client.post('/delete_image/', {'id': 2})
         content = json.loads(response.content)
-        print(content)
         self.assertEqual(200, response.status_code)
-        self.assertEqual(1, len(content['images']))
-        self.assertEqual(2, content['images'][0]['id'])
+        self.assertEqual(2, Image.objects.all().count())
+        with self.assertRaises(Image.DoesNotExist):
+            Image.objects.get(pk=2)

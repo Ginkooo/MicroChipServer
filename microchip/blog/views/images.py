@@ -1,8 +1,9 @@
 from django.http import JsonResponse
 from blog.models import Image
+from django.contrib.auth.decorators import login_required
 import sys
 
-
+@login_required()
 def upload_image(request):
     '''
     Post to this view, to upload image
@@ -44,6 +45,21 @@ def upload_image(request):
 
 
 def get_images(request):
+    '''
+    Gets images.
+
+    You have to provide POST like:
+
+    {
+        'tags': ['tag1', 'tag2']
+    }
+    or
+    {
+        'id': 1
+    }
+
+    Providing tags and id returns images like there is no id provided.
+    '''
     try:
         images = []
         if 'tags' in request.POST and len(request.POST['tags']):
@@ -64,3 +80,26 @@ def get_images(request):
             }
         )
     return JsonResponse(response)
+
+@login_required()
+def delete_image(request):
+    '''
+    Deletes image with given id
+
+    POST example
+    ============
+
+    {
+        'id' : 2
+    }
+
+    Error with status 500 and details in text.
+
+    Success with status 200 and {'status': 'OK'}
+    '''
+    try:
+        image_id = request.POST['id']
+        Image.objects.get(pk=image_id).delete()
+    except Exception as e:
+        return JsonResponse({'text': str(e)}, status=500)
+    return JsonResponse({'status': 'OK'})

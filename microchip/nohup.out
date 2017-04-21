@@ -1,0 +1,89 @@
+[20/Apr/2017 23:25:49] "GET / HTTP/1.1" 200 285
+[20/Apr/2017 23:25:50] "GET / HTTP/1.1" 200 285
+[20/Apr/2017 23:25:51] "GET / HTTP/1.1" 200 285
+[21/Apr/2017 04:16:08] "GET / HTTP/1.1" 200 285
+[21/Apr/2017 04:16:08] "GET /static/css/styles.css HTTP/1.1" 200 24
+[21/Apr/2017 08:44:54] "GET / HTTP/1.1" 200 285
+[21/Apr/2017 08:44:54] "GET /static/css/styles.css HTTP/1.1" 200 24
+Not Found: /favicon.ico
+[21/Apr/2017 08:44:54] "GET /favicon.ico HTTP/1.1" 404 3284
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 20, 2017 - 23:25:42
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:06:14
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:08:53
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:09:38
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:10:13
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:11:09
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:11:13
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:17:23
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:19:11
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+[21/Apr/2017 09:20:24] "GET / HTTP/1.1" 200 285
+Not Found: /favicon.ico
+[21/Apr/2017 09:20:24] "GET /favicon.ico HTTP/1.1" 404 3398
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:19:47
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 09:26:47
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
