@@ -93,3 +93,12 @@ class GetPostsTest(TestCase):
         content = json.loads(response.content)
         self.assertTrue(2 == len(content['posts']))
         self.assertEqual(content['posts'][0]['category'], 'cats')
+
+    def test_can_get_post_by_english_link(self):
+        response = self.client.get('/get_post/?link=english-link-2&language=en')
+        content = json.loads(response.content)
+        print(content)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(2, content['id'])
+        self.assertTrue('english' in content['content'])
+

@@ -1,5 +1,6 @@
 from django.http import JsonResponse
-from blog.models import Post
+from django.db.models import Q
+from blog.models import Post, Content
 
 def get_posts(request):
     '''
@@ -89,3 +90,23 @@ def get_posts(request):
 
     return JsonResponse(response)
 
+def get_post(request):
+    link = request.GET.get('link', None)
+    language = request.GET.get('language', None)
+    try:
+        if language == 'en':
+            content = Content.objects.get(english_link=link)
+            post = Post.objects.get(content=content)
+        else:
+            content = Content.objects.get(content=content)
+            post = Post.objects.get(content=content)
+    except Exception as e:
+        return JsonResponse({'text': str(e)}, status=500)
+    return JsonResponse({
+                        'id': post.id,
+                        'content': post.content.polish_content if language == 'pl' else post.content.english_content,
+                        'category': post.category,
+                        'author': post.author,
+                        'title': post.content.polish_title if language == 'pl' else post.content.english_title,
+                        'date': post.date
+                        })

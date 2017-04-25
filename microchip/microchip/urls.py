@@ -35,5 +35,6 @@ urlpatterns = [
     url('^is_contact_filled/', views.is_contact_filled),
     url('^create_contact/', views.create_contact),
     url('^get_contact_info/', views.get_contact_info),
+    url('^get_post/', views.get_post),
     url(r'^$', views.index),
 ]

@@ -94,3 +94,36 @@ April 21, 2017 - 09:27:05
 Django version 1.10.6, using settings 'microchip.settings'
 Starting development server at http://0.0.0.0:20001/
 Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+April 21, 2017 - 10:02:31
+Django version 1.10.6, using settings 'microchip.settings'
+Starting development server at http://0.0.0.0:20001/
+Quit the server with CONTROL-C.
+[21/Apr/2017 17:02:06] "GET / HTTP/1.1" 200 285
+[21/Apr/2017 17:02:06] "GET /static/css/styles.css HTTP/1.1" 200 24
+Not Found: /favicon.ico
+[21/Apr/2017 17:02:06] "GET /favicon.ico HTTP/1.1" 404 3870
+[21/Apr/2017 17:02:10] "GET / HTTP/1.1" 200 285
+[21/Apr/2017 17:02:31] "GET /get_contact_info HTTP/1.1" 301 0
+[21/Apr/2017 17:02:31] "GET /get_contact_info/ HTTP/1.1" 500 35
+[21/Apr/2017 17:04:41] "GET / HTTP/1.1" 200 285
+[21/Apr/2017 17:04:59] "GET / HTTP/1.1" 200 285
+[21/Apr/2017 17:04:59] "GET /static/css/styles.css HTTP/1.1" 200 24
+Not Found: /favicon.ico
+[21/Apr/2017 17:05:00] "GET /favicon.ico HTTP/1.1" 404 3870
+[21/Apr/2017 17:42:30] "GET / HTTP/1.1" 200 285
+[21/Apr/2017 17:42:38] "GET /get_posts HTTP/1.1" 301 0
+[21/Apr/2017 17:42:38] "GET /get_posts/ HTTP/1.1" 500 41
+[21/Apr/2017 17:42:43] "GET /get_posts/ HTTP/1.1" 500 41
+[21/Apr/2017 17:42:44] "GET /get_posts/ HTTP/1.1" 500 41
+Not Found: /add_contact
+[21/Apr/2017 17:42:55] "GET /add_contact HTTP/1.1" 404 3870
+[21/Apr/2017 17:43:03] "GET /create_contact HTTP/1.1" 301 0
+[21/Apr/2017 17:43:03] "GET /create_contact/ HTTP/1.1" 500 23
+[21/Apr/2017 17:43:06] "GET /create_contact/ HTTP/1.1" 500 23
+[21/Apr/2017 17:43:07] "GET /create_contact/ HTTP/1.1" 500 23
+[21/Apr/2017 17:43:08] "GET /create_contact/ HTTP/1.1" 500 23
+[21/Apr/2017 17:43:12] "GET /create_contact/ HTTP/1.1" 500 23
+[21/Apr/2017 17:43:18] "GET /create_contact/ HTTP/1.1" 500 23
