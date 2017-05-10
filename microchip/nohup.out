@@ -127,3 +127,8 @@ Not Found: /add_contact
 [21/Apr/2017 17:43:08] "GET /create_contact/ HTTP/1.1" 500 23
 [21/Apr/2017 17:43:12] "GET /create_contact/ HTTP/1.1" 500 23
 [21/Apr/2017 17:43:18] "GET /create_contact/ HTTP/1.1" 500 23
+[29/Apr/2017 22:40:24] "GET / HTTP/1.1" 200 275
+Not Found: /favicon.ico
+[29/Apr/2017 22:40:24] "GET /favicon.ico HTTP/1.1" 404 4090
+[29/Apr/2017 22:44:13] "GET / HTTP/1.1" 200 386
+[29/Apr/2017 22:45:36] "GET / HTTP/1.1" 200 395

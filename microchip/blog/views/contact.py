@@ -3,6 +3,9 @@ from blog.models import Contact
 
 
 def is_contact_filled(request):
+    '''
+    get this view, to check if contact info had been provided already
+    '''
     count = Contact.objects.all().count()
     if count == 1:
         return JsonResponse({'filled': 'true'})
@@ -13,6 +16,15 @@ def is_contact_filled(request):
 
 
 def edit_contact_info(request):
+    '''
+    Provide post like:
+    {
+        'phone': '34234232',
+        'email': 'some@email.com',
+        'address': 'someadress'
+    }
+    To change contact data
+    '''
     if not Contact.objects.all().count() == 1:
         return JsonResponse({'text': 'There if more than 1 contact row, contact with administrator'}, status=500)
     try:
@@ -32,6 +44,9 @@ def edit_contact_info(request):
     return JsonResponse({'status': 'OK'})
 
 def create_contact(request):
+    '''
+    POST to this view, providing address, email and phone to create a contact
+    '''
     if not Contact.objects.all().count() == 0:
         return JsonResponse({'text': 'You cant create contact if there is one already, use edit contact'}, status=500)
     try:
@@ -48,6 +63,9 @@ def create_contact(request):
 
 
 def get_contact_info(request):
+    '''
+    GET this view to get contact info
+    '''
     try:
         contact = Contact.objects.all()[0]
     except:

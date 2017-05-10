@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.db.models import Q
 from blog.models import Post, Content
 
@@ -91,6 +92,11 @@ def get_posts(request):
     return JsonResponse(response)
 
 def get_post(request):
+    '''
+    Provide GET like:
+
+    `/get_post?link=some-link&language=en
+    '''
     link = request.GET.get('link', None)
     language = request.GET.get('language', None)
     try:
@@ -98,7 +104,7 @@ def get_post(request):
             content = Content.objects.get(english_link=link)
             post = Post.objects.get(content=content)
         else:
-            content = Content.objects.get(content=content)
+            content = Content.objects.get(polish_link=link)
             post = Post.objects.get(content=content)
     except Exception as e:
         return JsonResponse({'text': str(e)}, status=500)
@@ -110,3 +116,23 @@ def get_post(request):
                         'title': post.content.polish_title if language == 'pl' else post.content.english_title,
                         'date': post.date
                         })
+
+def show_post(request, link):
+    '''
+    When user gets url like /post/some-link, then a template is rendered and post object is provided there, and can be used by Django Template Language
+    '''
+    if not link:
+        return JsonResponse({'text': 'None post link has been provided'}, status=500)
+    try:
+        content = Content.objects.get(english_link=link)
+    except Exception as e:
+        try:
+            content = Content.objects.get(polish_link=link)
+        except Exception as e:
+            return JsonResponse({'text': str(e)}, status=500)
+        return JsonResponse({'text': str(e)}, status=500)
+    try:
+        post = Post.objects.get(content=content)
+    except Exception as e:
+        return JsonResponse({'text': str(e)}, status=500)
+    return render(request, 'post.html', {'post': post})
